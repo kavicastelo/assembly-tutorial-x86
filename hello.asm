@@ -1,25 +1,25 @@
 section .data
-    hello db 'Hello, world!', 0    ; The string to print
+    hello db 'Hello, world!', 0
 
 section .text
-    extern GetStdHandle, WriteConsoleA, ExitProcess
     global _start
 
+    extern GetStdHandle
+    extern WriteConsoleA
+    extern ExitProcess
+
 _start:
-    ; Get the handle to the standard output (stdout)
-    mov rax, -11             ; STD_OUTPUT_HANDLE
+    ; Get the handle for stdout
+    mov rcx, -11           ; STD_OUTPUT_HANDLE
     call GetStdHandle
 
-    ; Save the handle
-    mov rdi, rax
-
-    ; Write the string to stdout
-    mov rax, 1              ; syscall number (sys_write)
-    mov rsi, rdi            ; handle to stdout
-    mov rdx, hello          ; pointer to string
-    mov rcx, 13             ; string length
+    ; Write to stdout
+    mov rcx, rax           ; handle to stdout
+    mov rdx, hello         ; pointer to string
+    mov r8, 13             ; string length
+    lea r9, [rsp+8]        ; pointer to number of bytes written (dummy variable)
     call WriteConsoleA
 
-    ; Exit the process
-    mov rax, 0              ; exit code 0
+    ; Exit
+    xor rcx, rcx           ; exit code 0
     call ExitProcess
