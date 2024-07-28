@@ -1,0 +1,4 @@
+nasm -f win64 qty.asm -o qty.o
+gcc -m64 -o qty qty.o -lkernel32 -lmsvcrt
+
+.\qty.exe

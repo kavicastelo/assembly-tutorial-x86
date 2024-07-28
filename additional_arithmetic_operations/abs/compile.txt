@@ -1,0 +1,4 @@
+nasm -f win64 abs.asm -o abs.o
+gcc -m64 -o abs abs.o -lkernel32 -lmsvcrt
+
+.\abs.exe
