@@ -1,0 +1,4 @@
+nasm -f win64 neg.asm -o neg.o
+gcc -m64 -o neg neg.o -lkernel32 -lmsvcrt
+
+.\neg.exe
