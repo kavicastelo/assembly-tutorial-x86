@@ -19,7 +19,7 @@ main:
 
     ; Print the result using printf
     mov rcx, fmt  ; First argument: format string
-    mov rdx, rax  ; Second argument: result of sum
+    mov rdx, rax  ; Second argument: result of subtraction
     call printf
 
     ; Function epilogue
