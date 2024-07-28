@@ -12,14 +12,14 @@ main:
     push rbp
     mov rbp, rsp
 
-    ; Call multiply function with parameters 10 and 4
-    mov rdi, 10
+    ; Call divide function with parameters 8 and 4
+    mov rdi, 8
     mov rsi, 4
-    call multiply
+    call divide
 
     ; Print the result using printf
     mov rcx, fmt  ; First argument: format string
-    mov rdx, rax  ; Second argument: result of multiply
+    mov rdx, rax  ; Second argument: result of divide
     call printf
 
     ; Function epilogue
@@ -27,17 +27,15 @@ main:
     pop rbp
     ret
 
-multiply:
+divide:
     ; Function prologue
     push rbp
     mov rbp, rsp
 
     ; Access parameters
     mov rax, rdi   ; rax = first parameter (a)
-    mov rbx, rsi   ; rbx = second parameter (b)
-
-    ; Perform multiplication
-    imul rbx      ; rax = rax * rbx
+    cqo            ; Sign-extend rax into rdx:rax
+    idiv rsi       ; rax = a / b, rdx = a % b
 
     ; Function epilogue
     pop rbp
