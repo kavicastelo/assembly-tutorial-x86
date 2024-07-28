@@ -1,0 +1,4 @@
+nasm -f win64 sum.asm -o sum.o
+gcc -m64 -o sum sum.o -lkernel32 -lmsvcrt
+
+.\sum.exe
