@@ -1,0 +1,4 @@
+nasm -f win64 hello.asm -o hello.obj
+gcc -nostdlib -o hello.exe hello.obj -lkernel32
+
+.\hello.exe
