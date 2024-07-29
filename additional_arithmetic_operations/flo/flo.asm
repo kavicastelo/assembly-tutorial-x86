@@ -1,7 +1,9 @@
 section .data
     fmt db "Floating Point Part: %f", 10, 0
     float_value dq 10.5
-    result dq 0.0
+
+section .bss
+    result resq 1
 
 section .text
 global main
@@ -12,38 +14,24 @@ main:
     push rbp
     mov rbp, rsp
 
-    ; Load floating-point value into the FPU
-    mov rax, float_value
-    fld qword [rax]
+    ; Load the floating-point value into xmm0
+    movsd xmm0, qword [rel float_value]
 
-    ; Call floatVal function
-    call floatVal
+    ; Get the fractional part
+    movapd xmm1, xmm0        ; Copy the value to xmm1
+    roundsd xmm1, xmm0, 0    ; Round to integer in xmm1
+    subsd xmm0, xmm1         ; Subtract integer part from xmm0
 
-    ; Store result from the FPU to memory
-    mov rax, result
-    fstp qword [rax]
+    ; Store the result
+    movsd qword [rel result], xmm0
 
-    ; Print the result using printf
-    mov rcx, fmt         ; First argument: format string
-    mov rdx, result       ; Second argument: address of result
-    movsd xmm0, qword [rdx]     ; Move the double to xmm0 for printf
+    ; Prepare arguments for printf
+    lea rcx, [rel fmt]       ; First argument: format string
+    movsd xmm1, qword [rel result]  ; Move the double to xmm1 for printf
+    movq rdx, xmm1           ; Duplicate second argument as per convention
     call printf
 
     ; Function epilogue
     mov eax, 0
-    pop rbp
-    ret
-
-floatVal:
-    ; Function prologue
-    push rbp
-    mov rbp, rsp
-
-    ; Get the integer part
-    fld st0                ; Copy the value to the top of the stack
-    frndint                ; Round to integer
-    fsub                   ; Subtract integer part from original value (st0 - st1)
-
-    ; Function epilogue
     pop rbp
     ret
