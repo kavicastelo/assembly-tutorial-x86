@@ -1,0 +1,4 @@
+nasm -f win64 div.asm -o div.o
+gcc -m64 -o div div.o -lkernel32 -lmsvcrt
+
+.\div.exe

@@ -1,0 +1,4 @@
+nasm -f win64 mul.asm -o mul.o
+gcc -m64 -o mul mul.o -lkernel32 -lmsvcrt
+
+.\mul.exe
