@@ -1,0 +1,4 @@
+nasm -f win64 sub.asm -o sub.o
+gcc -m64 -o sub sub.o -lkernel32 -lmsvcrt
+
+.\sub.exe

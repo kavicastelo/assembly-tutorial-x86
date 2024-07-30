@@ -1,0 +1,4 @@
+nasm -f win64 add.asm -o add.o
+gcc -m64 -o add add.o -lkernel32 -lmsvcrt
+
+.\add.exe
